@@ -1,0 +1,13 @@
+{
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports"
+    ],
+    "singleQuote": true,
+    "useTabs": false,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "importOrderSeparation": true,
+    "importOrder": ["^@boiron/(.*)$", "^[$|@]/(.*)$", "^[./]"],
+    "importOrderSortSpecifiers": true
+  }
+  
