@@ -1,13 +1,14 @@
-import { HouseIds } from '@/context/game-context';
+import { HouseIds } from '@/components/GameEngine';
 
 type LevelOutcome = Record<HouseIds, THREE.Vector3Tuple | THREE.Vector3Tuple[]>;
 export type Level = { pigs: THREE.Vector3Tuple[]; outcome: LevelOutcome };
 
 // translates grid coordinates to vector coordinates
 const fromGridToVector = (row: number, col: number): THREE.Vector3Tuple => {
-  /* Position the sphere at {row}{col}, centered in the recessed area */
-  /* Adjusted Y-coordinate to account for the elevation of the recessed area and the radius of the sphere */
-  return [col - 1.5, 0.3 + 0.05, row - 1.5];
+  // Position the sphere at [row][col], centered in the recessed area
+  // Adjusted Y-coordinate to account for the elevation of the recessed area and the radius of the sphere
+
+  return [col - 1.5, 0.05, row - 1.5];
 };
 
 export const fromVectorToGrid = (
@@ -29,6 +30,21 @@ export const levels: Record<number, Level> = {
       brown: [
         [1.5, 0, -0.5],
         [1.5, 0, 1.5],
+      ],
+    },
+  },
+  2: {
+    pigs: [
+      fromGridToVector(1, 0),
+      fromGridToVector(1, 2),
+      fromGridToVector(1, 3),
+    ],
+    outcome: {
+      red: [1.5, 0, 0.5],
+      yellow: [-0.5, 0, -0.5],
+      brown: [
+        [-1.5, 0, 0.5],
+        [0.5, 0, 0.5],
       ],
     },
   },

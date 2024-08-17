@@ -1,22 +1,14 @@
 import { Dispatch, SetStateAction } from 'react';
 
 import { levels } from '@/config/levels';
+import { board } from '@/core/engine';
 
-// import { useGameContext } from '@/context/game-context';
 import BoardSquare from './BoardSquare';
 import { HouseCoordinatesMap } from './GameEngine';
-import House from './House';
-import Pig from './Pig';
-
-export const board = [
-  [0, 1, 1, 0],
-  [1, 1, 1, 1],
-  [1, 1, 1, 1],
-  [0, 1, 1, 1],
-];
+import House from './House/House';
+import { PigModel } from './PigModel';
 
 type Props = {
-  setHouseCoordinatesMap: Dispatch<SetStateAction<HouseCoordinatesMap>>;
   currentLevel: number;
 };
 
@@ -26,12 +18,10 @@ export type BoardSquareCoordinates = {
   vector: THREE.Vector3Tuple;
 };
 
-export default function Board({ currentLevel, setHouseCoordinatesMap }: Props) {
+export default function Board({ currentLevel }: Props) {
   const gameBoard: React.ReactNode[] = [];
-  const size = 4;
   const squareColor = '#00e5ff';
   const squaresCoordinates: BoardSquareCoordinates[] = [];
-  // const { currentLevel } = useGameContext();
   const level = levels[currentLevel];
 
   if (level == null) {
@@ -60,14 +50,18 @@ export default function Board({ currentLevel, setHouseCoordinatesMap }: Props) {
   return (
     <>
       <group>{gameBoard}</group>
+
       {level.pigs.map((pigPosition) => (
-        <Pig
+        <PigModel
           key={`${pigPosition[0]}-${pigPosition[2]}`}
           position={pigPosition}
         />
       ))}
+
       <House
         id="red"
+        // using key prop to force react re mount our House on level change
+        key={`red-${currentLevel}`}
         position={[-5, 0.1, 0]}
         boardSquaresCoordinates={squaresCoordinates}
         shape={[
@@ -75,11 +69,10 @@ export default function Board({ currentLevel, setHouseCoordinatesMap }: Props) {
           [0, 1],
           [0, 1],
         ]}
-        setHouseCoordinatesMap={setHouseCoordinatesMap}
-        currentLevel={currentLevel}
       />
       <House
         id="yellow"
+        key={`yellow-${currentLevel}`}
         position={[5, 0.1, 0]}
         boardSquaresCoordinates={squaresCoordinates}
         shape={[
@@ -87,17 +80,14 @@ export default function Board({ currentLevel, setHouseCoordinatesMap }: Props) {
           [0, 1],
         ]}
         wallColor="#ffeb3b"
-        setHouseCoordinatesMap={setHouseCoordinatesMap}
-        currentLevel={currentLevel}
       />
       <House
         id="brown"
+        key={`brown-${currentLevel}`}
         position={[3, 0.1, -2.5]}
         boardSquaresCoordinates={squaresCoordinates}
         shape={[[1, 2, 1]]}
         wallColor="#6d4c41"
-        setHouseCoordinatesMap={setHouseCoordinatesMap}
-        currentLevel={currentLevel}
       />
     </>
   );

@@ -1,18 +1,18 @@
 import { Canvas } from '@react-three/fiber';
-
-import { CameraContextProvider } from '@/context/camera-context';
-import { GameContextProvider } from '@/context/game-context';
+import { Suspense } from 'react';
 
 import GameEngine from './GameEngine';
+import ScreenBoard from './ScreenBoard';
 
 export default function App() {
   return (
-    <CameraContextProvider>
-      <GameContextProvider>
-        <Canvas>
+    <>
+      <ScreenBoard />
+      <Canvas>
+        <Suspense fallback={null}>
           <GameEngine />
-        </Canvas>
-      </GameContextProvider>
-    </CameraContextProvider>
+        </Suspense>
+      </Canvas>
+    </>
   );
 }
